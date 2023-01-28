@@ -1,15 +1,21 @@
+/*  Динамическое программирование для подсчета всех путей из ячейки начального положения фигуры (M0,N0)
+    к последней ячейке (M-1, N-1) в данном прямоугольном поле размерностью M × N
+    Где : myQ - искомое кол-во маршрутов
+          myArrBefore - массив для хранения игрового поля до и после игры (один для экономии памяти)
+          myCoord - массив для размеров игрового поля и начального положения фигуры.
+                    Замечание myCoord[4] переменная-flag для проверки ввода.
+*/
 import java.util.Scanner;
-
 public class ToSeminar_3_1
-{  
-    // Динамическое программирование для подсчета всех путей из ячейки начального положения фигуры (M0,N0)
-    // к последней ячейке (M-1, N-1) в данном прямоугольном поле размерностью M × N
-    
-    public static void main(String[] args)//Точка входа
+{   public static void main(String[] args)//Точка входа
     {
         System.out.print("\033[H\033[2J");//Очистка экрана
         inputWords();
         int[] myCoord = inputSize();//Ввод размерений поля и начального положения фигуры
+        if(myCoord[4] != 1){
+            System.out.printf("\n\t\t ДО СВИДАНИЯ !\n\n");
+            return;
+        }
         System.out.println("\n\tИсходное игровое поле \n");
         int[][]  myArrBefore = printArrayBefore(myCoord[0], myCoord[1]);
         System.out.println("\n\tИгровое поле после игры\n");
@@ -24,17 +30,25 @@ public class ToSeminar_3_1
             " Посчитать  количество  маршрутов, которыми  фигура может попасть в нижнюю правую клетку.\n");
     }
 
-    public static int[] inputSize () {//Задание размерности поля (M,N) и начального положения фигуры(M0,N0)
+    public static int[] inputSize (){//Задание размерности поля (M,N) и начального положения фигуры(M0,N0)
         Scanner line = new Scanner(System.in); 
-        System.out.print("Вводим размер поля MxN (N, M меньше 14) и начальные координаты фигуры (M0,N0)): ");
+        System.out.print("Вводим через пробел размер поля MxN (N, M меньше 14) и начальные координаты фигуры (M0,N0)): ");
         String mn = line.nextLine();
         line.close();     
         String[] coordIn = mn.split(" ");
-        int[] coordOut = new int[4];
-    
+        int[] coordOut = new int[5];
+        coordOut[4] = 1;//Переменная-flag для проверки правильности ввода
         for(int i =0;i < 4; i++){// Перевод в int
             coordOut[i] = Integer.parseInt(coordIn[i]);//Получение INT - массива начальных и граничных условий.
-        }
+            if(coordOut[i] <=0){
+                coordOut[4]  =0;//Присвоено некорректное значение
+                System.out.printf("\n\tПрисвоено некорректное значение ( %d ) ",coordOut[i]);
+            } 
+        if(coordOut[0]<coordOut[2] | coordOut[1]<coordOut[3] ){//Проверка вход за пределами поля
+            System.out.println("\n\tПопытка входа в игру вне игрового поля - сколько сообщений - столько ошибок ");
+            coordOut[4] = 0;
+        }        
+        }    
         return coordOut;
     }
 
