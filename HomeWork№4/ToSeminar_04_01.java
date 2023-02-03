@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.Scanner;
 
 public class ToSeminar_04_01 {
@@ -16,7 +19,8 @@ public class ToSeminar_04_01 {
         System.out.println("\n\tИгровое поле с преградами (обозначены -88) и точкой старта - (обозначена (1)) \n");
         printArray(myArrPole);
         System.out.println("\n");
-        findPath(myArrPole);
+        findPath(myCoord, myArrPole);
+        printArray(myArrPole);
     }
 
     private static void inputWords() {
@@ -76,9 +80,50 @@ public class ToSeminar_04_01 {
         return arr;
     }
 
-    private static int[][] findPath(int[][] arr) {
-
-        return arr;
+    private static int[][] findPath(int[]arrCo, int[][] arrPo) {
+        ArrayDeque<Integer> pathLe = new ArrayDeque<Integer>();
+        int m = arrPo.length;
+        int n = arrPo[0].length;
+        pathLe.addFirst((arrCo[2] - 1) * n + ( arrCo[3] - 1));
+        System.out.print("\n"+pathLe+"\n");
+        while((arrPo[m - 1][n - 1] == 0) == true){
+            int temp =  pathLe.pollFirst();
+            //System.out.print("\n\t"+temp+"\n");
+            for(int i = 1; i < 5; i++){
+                if(i == 1){
+                    if( (temp / n - 1) < 0 ){}
+                    else if((arrPo[temp /n - 1][temp % n]) == 0 ){
+                        arrPo[temp/ n - 1][temp % n] = arrPo[temp / n][temp % n] +1;
+                        pathLe.addLast((temp/ n - 1) * n + temp % n);
+                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
+                    }   
+                }
+                else if( i == 2){
+                    if( (temp % n - 1) < 0) {} 
+                    else if( arrPo[temp / n][temp % n - 1] == 0){
+                        arrPo[temp/ n][temp % n - 1] = arrPo[temp / n][temp % n ]+ 1;
+                        pathLe.addLast(temp - 1);
+                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
+                    }   
+                }
+                else if( i == 3){
+                    if( (temp / n + 1) >= m){} 
+                    else if( arrPo[temp / n + 1][temp % n] == 0 ){
+                        arrPo[temp/ n + 1][temp % n] = arrPo[temp / n][temp % n] +1;
+                        pathLe.addLast((temp/ n + 1) * n + temp % n);
+                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
+                    }   
+                }
+                else if(i == 4){
+                    if( (temp % n + 1) >= n) {}
+                    else if( arrPo[temp / n][temp % n + 1] == 0 ){
+                        arrPo[temp/ n][temp % n + 1] = arrPo[temp /n][temp % n] + 1;
+                        pathLe.addLast(temp + 1);
+                        System.out.print("\n\t"+pathLe.getLast()+"\n");
+                    }   
+                }
+            }
+        }
+        return arrPo;
     }
-
 }
