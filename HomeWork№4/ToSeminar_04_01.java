@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
@@ -18,9 +16,14 @@ public class ToSeminar_04_01 {
         myArrPole = fillPole(myCoord, myArrPole);
         System.out.println("\n\tИгровое поле с преградами (обозначены -88) и точкой старта - (обозначена (1)) \n");
         printArray(myArrPole);
-        System.out.println("\n");
         findPath(myCoord, myArrPole);
+        System.out.printf("\n\tИгровое поле с расчетом оптимальным путем из точки < 1 > в точку < %d >\n\n",+
+                                    myArrPole[myCoord[0]-1][myCoord[1] - 1]);
         printArray(myArrPole);
+        System.out.println("\n\tИгровое с оптимальным путем, отмеченным < 0 >\n");
+        swowPath(myCoord, myArrPole);
+        printArray(myArrPole);
+        System.out.println("\n");
     }
 
     private static void inputWords() {
@@ -41,7 +44,7 @@ public class ToSeminar_04_01 {
                 coordOut[4]  =0;//Присвоено некорректное значение
                 System.out.printf("\n\tПрисвоено некорректное значение ( %d ) ",coordOut[i]);
             } 
-        if(coordOut[0]<coordOut[2] | coordOut[1]<coordOut[3] ){//Проверка вход за пределами поля
+        if(coordOut[0]<coordOut[2] | coordOut[1]<coordOut[3] ){//Проверка входа за пределами поля
             System.out.println("\n\tПопытка входа в игру вне игрового поля - сколько сообщений - столько ошибок ");
             coordOut[4] = 0;
         }        
@@ -68,11 +71,11 @@ public class ToSeminar_04_01 {
 
     private static int[][] fillPole(int[] arrCoord, int[][] arr) {
         arr[arrCoord[2] - 1][arrCoord[3] - 1] = 1;
-        int n = (int) ( 5 + (Math.random() * 2) );
+        int n = (int) ( 4 + (Math.random() * 2) );
         while(n > 0){
-            int tempX = (int) (0 + (Math.random() * (arr.length - 2)) );
-            int tempY = (int) (0 + (Math.random() * (arr[0].length - 2)) );  
-            if(tempX != (arrCoord[2] - 1) & tempY != (arrCoord[3] - 1)){
+            int tempX = (int) (0 + (Math.random() * (arr.length - 1)) );
+            int tempY = (int) (0 + (Math.random() * (arr[0].length - 1)) );  
+            if(tempX != (arrCoord[2] - 1) | tempY != (arrCoord[3] - 1)){
                 arr[tempX][tempY] = -88;
                 n--;
             } 
@@ -85,17 +88,14 @@ public class ToSeminar_04_01 {
         int m = arrPo.length;
         int n = arrPo[0].length;
         pathLe.addFirst((arrCo[2] - 1) * n + ( arrCo[3] - 1));
-        System.out.print("\n"+pathLe+"\n");
         while((arrPo[m - 1][n - 1] == 0) == true){
             int temp =  pathLe.pollFirst();
-            //System.out.print("\n\t"+temp+"\n");
             for(int i = 1; i < 5; i++){
                 if(i == 1){
                     if( (temp / n - 1) < 0 ){}
                     else if((arrPo[temp /n - 1][temp % n]) == 0 ){
                         arrPo[temp/ n - 1][temp % n] = arrPo[temp / n][temp % n] +1;
                         pathLe.addLast((temp/ n - 1) * n + temp % n);
-                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
                     }   
                 }
                 else if( i == 2){
@@ -103,7 +103,6 @@ public class ToSeminar_04_01 {
                     else if( arrPo[temp / n][temp % n - 1] == 0){
                         arrPo[temp/ n][temp % n - 1] = arrPo[temp / n][temp % n ]+ 1;
                         pathLe.addLast(temp - 1);
-                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
                     }   
                 }
                 else if( i == 3){
@@ -111,7 +110,6 @@ public class ToSeminar_04_01 {
                     else if( arrPo[temp / n + 1][temp % n] == 0 ){
                         arrPo[temp/ n + 1][temp % n] = arrPo[temp / n][temp % n] +1;
                         pathLe.addLast((temp/ n + 1) * n + temp % n);
-                        System.out.print("\n\t"+pathLe.peekLast()+"\n");
                     }   
                 }
                 else if(i == 4){
@@ -119,11 +117,63 @@ public class ToSeminar_04_01 {
                     else if( arrPo[temp / n][temp % n + 1] == 0 ){
                         arrPo[temp/ n][temp % n + 1] = arrPo[temp /n][temp % n] + 1;
                         pathLe.addLast(temp + 1);
-                        System.out.print("\n\t"+pathLe.getLast()+"\n");
                     }   
                 }
             }
         }
         return arrPo;
+    }
+
+    private static int[][] swowPath(int[] arrCo, int[][] arr00) {
+        ArrayDeque<Integer> path00 = new ArrayDeque<Integer>();
+        int m = arr00.length;
+        int n = arr00[0].length;
+        path00.addFirst(m * n - 1);
+        int temp = path00.getFirst();
+        while((arr00[arrCo[2] - 1][arrCo[3] - 1] != 0) == true) {
+        //while((temp > 0) == true) {    
+            temp =  path00.pollFirst();
+            System.out.println("\n\t"+temp);
+            for(int i = 1; i < 5; i++){
+                if(i == 1){
+                    if( (temp / n - 1) < 0 ){}
+                    else if((arr00[temp/n - 1][temp % n]) < arr00[temp/n][temp % n] & (arr00[temp/n - 1][temp % n]!= 0) & 
+                    (arr00[temp/n - 1][temp % n]) != - 88){
+                        arr00[temp / n][temp % n] = 0;
+                        //arr00[temp/ n - 1][temp % n] = 0;
+                        path00.addLast(temp - n);
+                    }   
+                }
+                else if( i == 2){
+                    if( (temp % n - 1) < 0) {} 
+                    else if( (arr00[temp / n][temp % n - 1] <  arr00[temp / n][temp % n ]) & (arr00[temp/ n][temp % n - 1] != 0) & 
+                    (arr00[temp/ n][temp % n - 1] != -88)){
+                        arr00[temp / n][temp % n] = 0;
+                        //arr00[temp/ n][temp % n - 1] = 0;
+                        path00.addLast(temp - 1);
+                    }   
+                }
+                else if( i == 3){
+                    if( (temp / n + 1) >= m){} 
+                    else if(( arr00[temp / n + 1][temp % n] < arr00[temp / n][temp % n]) & ( arr00[temp/ n + 1][temp % n] != 0) &
+                    ( arr00[temp/ n + 1][temp % n] != -88)){
+                        arr00[temp / n][temp % n] = 0;
+                        //arr00[temp/ n + 1][temp % n] = 0;
+                        path00.addLast(temp + n);
+                    }   
+                }
+                else if(i == 4){
+                    if( (temp % n + 1) >= n) {}
+                    else if(( arr00[temp / n][temp % n + 1] < arr00[temp /n][temp % n]) & (arr00[temp/ n][temp % n + 1] != 0) &
+                    (arr00[temp/ n][temp % n + 1] != - 88)){
+                        arr00[temp / n][temp % n] = 0;
+                        //arr00[temp/ n][temp % n + 1] = 0;
+                        path00.addLast(temp + 1);
+                    }   
+                }
+            }
+        }
+        System.out.println(path00);
+        return arr00;
     }
 }
