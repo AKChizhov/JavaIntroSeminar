@@ -130,8 +130,10 @@ public class ToSeminar_04_01 {
         int n = arr00[0].length;
         path00.addFirst(m * n - 1);
         int temp = path00.getFirst();
-        while((arr00[arrCo[2] - 1][arrCo[3] - 1] != 0) == true) {
-        //while((temp > 0) == true) {    
+        int indexStop = (arrCo[2] -1) * n + arrCo[3] - 1;
+        System.out.println("\n\t"+indexStop);
+        //while((arr00[arrCo[2] - 1][arrCo[3] - 1] != 0) == true) {
+        while((temp != indexStop) == true) {    
             temp =  path00.pollFirst();
             System.out.println("\n\t"+temp);
             for(int i = 1; i < 5; i++){
