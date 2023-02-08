@@ -46,5 +46,8 @@ public class UsIntfImpl implements UsIntf {
         System.out.println("\n");
     }
 
-    
+    public void printMessage(String message){
+        System.out.printf(message);
+    }
+
 }
