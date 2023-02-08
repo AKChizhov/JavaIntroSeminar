@@ -37,6 +37,7 @@ public class UsIntfImpl implements UsIntf {
     public void printArray(int[][] arr) {// Вид поля до начала игры
         int m = arr.length;
         int n = arr[0].length;
+        System.out.println("\n");
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 System.out.print(" \t " + arr[i][j]);
