@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 public class UsIntfImpl implements UsIntf {
     public void inputWords() {
-        System.out.println(" \n\tЗадача нахождения кратчайшего пути на поле размерностью M x N \n");
+        System.out.println(" \n\tЗадача нахождения кратчайшего пути на поле размерностью M x N "+
+            "волновым методом (иначе методом Ли (Lee)).\n\tАлгоритм упрощен - возможность продвижения волны проверяется"+
+            "по 4-м направлениям: вверх-налево-вниз-направо,без диагоналей\n");
     }
 
     public void clearScreen() {
@@ -46,9 +48,9 @@ public class UsIntfImpl implements UsIntf {
         }
         System.out.println("\n");
     }
-
+    /* 
     public void printMessage(String message){
         System.out.printf(message);
     }
-
+    */
 }

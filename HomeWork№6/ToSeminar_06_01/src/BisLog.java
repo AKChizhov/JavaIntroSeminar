@@ -1,17 +1,17 @@
 package ToSeminar_06_01.src;
 
 import ToSeminar_06_01.src.Services.Calculate;
-import java.util.Formatter;
+//import java.util.Formatter;
 
 public class BisLog {
     UsIntf ui;
     Calculate calc;
-    Formatter f;
+    //Formatter f;
 
-    public BisLog(UsIntf ui, Calculate calc, Formatter f) {
+    public BisLog(UsIntf ui, Calculate calc) {
         this.ui = ui;
         this.calc = calc;
-        this.f = f;
+        //this.f = f;
     }
 
     private void game() {
